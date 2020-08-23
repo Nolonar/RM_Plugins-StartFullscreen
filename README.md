@@ -1,4 +1,4 @@
-N_StartFullscreen
+# N_StartFullscreen
 Launches game in fullscreen.
 
 ## Compatibility
