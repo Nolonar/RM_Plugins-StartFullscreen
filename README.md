@@ -1,4 +1,4 @@
-# RM_Plugins-StartFullscreen
+N_StartFullscreen
 Launches game in fullscreen.
 
 ## Compatibility
