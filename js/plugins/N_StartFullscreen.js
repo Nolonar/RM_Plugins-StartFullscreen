@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-//==============================================================================
+//=============================================================================
 // N_StartFullscreen
-//==============================================================================
+//=============================================================================
 /*:
  * @target MZ
  * @plugindesc Start game in fullscreen
@@ -39,9 +39,39 @@
  */
 
 (() => {
+    // Localizable
+    const TEXT_EXIT = {
+        [Window_TitleCommand.name]: "Exit",
+        [Window_GameEnd.name]: "To Desktop"
+    };
+
     let Scene_Boot_start = Scene_Boot.prototype.start;
     Scene_Boot.prototype.start = function () {
         Scene_Boot_start.call(this);
         Graphics._requestFullScreen();
     };
+
+    // Add "Exit" command to Window_TitleCommand and Window_GameEnd.
+    const symbol = "exit";
+    let makeCommandList_old = {};
+    for (const window of [Window_TitleCommand, Window_GameEnd]) {
+        makeCommandList_old[window.name] = window.prototype.makeCommandList;
+        window.prototype.makeCommandList = function () {
+            makeCommandList_old[this.constructor.name].call(this);
+            this.addCommand(TEXT_EXIT[this.constructor.name], symbol)
+        }
+    }
+    // Must set command handlers separately for Scene_Title and Scene_GameEnd.
+    let createCommandWindow_old = {}
+    for (const scene of [Scene_Title, Scene_GameEnd]) {
+        createCommandWindow_old[scene.name] = scene.prototype.createCommandWindow;
+        scene.prototype.createCommandWindow = function () {
+            createCommandWindow_old[this.constructor.name].call(this);
+
+            this._commandWindow.setHandler(symbol, () => SceneManager.exit());
+            // Reset command window.
+            this._windowLayer.removeChild(this._commandWindow);
+            this.addWindow(this._commandWindow);
+        }
+    }
 })();
