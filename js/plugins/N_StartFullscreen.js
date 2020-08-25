@@ -41,7 +41,9 @@
  */
 
 (() => {
-    // Localizable
+    //=========================================================================
+    // To localize
+    //=========================================================================
     const TEXT_EXIT = {
         [Window_TitleCommand.name]: "Exit",
         [Window_GameEnd.name]: "To Desktop"
@@ -60,13 +62,22 @@
         makeCommandList_old[window.name] = window.prototype.makeCommandList;
         window.prototype.makeCommandList = function () {
             makeCommandList_old[this.constructor.name].call(this);
-            this.addCommand(TEXT_EXIT[this.constructor.name], symbol)
-        }
+            this.addCommand(TEXT_EXIT[this.constructor.name], symbol);
+            if (this instanceof Window_GameEnd) {
+                // Move "Cancel" option to bottom.
+                const i = this._list.findIndex(cmd => cmd.symbol === "cancel");
+                const cmd = this._list[i];
+                this._list = this._list.slice(0, i).concat(this._list.slice(i + 1));
+                this._list.push(cmd);
+            }
+        };
     }
     // Must set command handlers separately for Scene_Title and Scene_GameEnd.
-    let createCommandWindow_old = {}
+    let createCommandWindow_old = {};
+    let commandWindowRect_old = {};
     for (const scene of [Scene_Title, Scene_GameEnd]) {
-        createCommandWindow_old[scene.name] = scene.prototype.createCommandWindow;
+        const key = scene.name;
+        createCommandWindow_old[key] = scene.prototype.createCommandWindow;
         scene.prototype.createCommandWindow = function () {
             createCommandWindow_old[this.constructor.name].call(this);
 
@@ -74,6 +85,15 @@
             // Reset command window.
             this._windowLayer.removeChild(this._commandWindow);
             this.addWindow(this._commandWindow);
-        }
+        };
+        commandWindowRect_old[key] = scene.prototype.commandWindowRect;
+        scene.prototype.commandWindowRect = function () {
+            const rect = commandWindowRect_old[this.constructor.name].call(this);
+            // Adding the equivalent of 1 additional line of height.
+            // We compute (3 lines - 2 lines) just in case the first
+            // and last line have a different height.
+            rect.height += this.calcWindowHeight(3, true) - this.calcWindowHeight(2, true);
+            return rect;
+        };
     }
 })();
