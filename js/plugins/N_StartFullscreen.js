@@ -65,10 +65,9 @@
             this.addCommand(TEXT_EXIT[this.constructor.name], symbol);
             if (this instanceof Window_GameEnd) {
                 // Move "Cancel" option to bottom.
-                const i = this._list.findIndex(cmd => cmd.symbol === "cancel");
-                const cmd = this._list[i];
-                this._list = this._list.slice(0, i).concat(this._list.slice(i + 1));
-                this._list.push(cmd);
+                const command = this._list.find(cmd => cmd.symbol === "cancel");
+                this._list.remove(command);
+                this._list.push(command);
             }
         };
     }
