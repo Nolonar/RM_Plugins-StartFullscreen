@@ -3,7 +3,7 @@ Launches game in fullscreen.
 
 | Project             |  Latest release   |
 | ------------------- |  ---------------- |
-| N_StartFullscreen   |  [1.1.0][release] |
+| N_StartFullscreen   |  [1.1.1][release] |
 
 [All RPG Maker plugins by Nolonar][hub]
 
