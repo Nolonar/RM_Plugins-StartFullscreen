@@ -32,7 +32,7 @@
  * @url https://github.com/Nolonar/RM_Plugins-StartFullscreen
  * 
  * 
- * @help Version 1.1.0
+ * @help Version 1.1.1
  * 
  * This plugin does not provide plugin commands.
  * 
