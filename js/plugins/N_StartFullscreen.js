@@ -23,16 +23,28 @@
  */
 
 //=============================================================================
-// N_StartFullscreen
+// Metadata
 //=============================================================================
 /*:
  * @target MZ
  * @plugindesc Start game in fullscreen
  * @author Nolonar
- * @url https://github.com/Nolonar/RM_Plugins-StartFullscreen
+ * @url https://github.com/Nolonar/RM_Plugins
+ * 
+ * @param textExit
+ * @text "Exit" text
+ * @desc The text to display for the "Exit" command on the title screen.
+ * @type string
+ * @default Exit
+ * 
+ * @param textToDesktop
+ * @text "To Desktop" text
+ * @desc The text to display for the "To Desktop" command on the Game End screen.
+ * @type string
+ * @default To Desktop
  * 
  * 
- * @help Version 1.1.1
+ * @help Version 1.2.0
  * 
  * This plugin does not provide plugin commands.
  * 
@@ -41,15 +53,13 @@
  */
 
 (() => {
-    //=========================================================================
-    // To localize
-    //=========================================================================
-    const TEXT_EXIT = {
-        [Window_TitleCommand.name]: "Exit",
-        [Window_GameEnd.name]: "To Desktop"
-    };
+    const PLUGIN_NAME = "N_Minimap";
 
-    let Scene_Boot_start = Scene_Boot.prototype.start;
+    const parameters = PluginManager.parameters(PLUGIN_NAME);
+    parameters.textExit = parameters.textExit || "Exit";
+    parameters.textToDesktop = parameters.textToDesktop || "To Desktop";
+
+    const Scene_Boot_start = Scene_Boot.prototype.start;
     Scene_Boot.prototype.start = function () {
         Scene_Boot_start.call(this);
         Graphics._requestFullScreen();
@@ -57,12 +67,17 @@
 
     // Add "Exit" command to Window_TitleCommand and Window_GameEnd.
     const symbol = "exit";
-    let makeCommandList_old = {};
+    const makeCommandList_old = {};
     for (const window of [Window_TitleCommand, Window_GameEnd]) {
         makeCommandList_old[window.name] = window.prototype.makeCommandList;
         window.prototype.makeCommandList = function () {
             makeCommandList_old[this.constructor.name].call(this);
-            this.addCommand(TEXT_EXIT[this.constructor.name], symbol);
+
+            const exitText = {
+                [Window_TitleCommand.name]: parameters.textExit,
+                [Window_GameEnd.name]: parameters.textToDesktop
+            }[this.constructor.name];
+            this.addCommand(exitText, symbol);
             if (this instanceof Window_GameEnd) {
                 // Move "Cancel" option to bottom.
                 const command = this._list.find(cmd => cmd.symbol === "cancel");
@@ -72,8 +87,8 @@
         };
     }
     // Must set command handlers separately for Scene_Title and Scene_GameEnd.
-    let createCommandWindow_old = {};
-    let commandWindowRect_old = {};
+    const createCommandWindow_old = {};
+    const commandWindowRect_old = {};
     for (const scene of [Scene_Title, Scene_GameEnd]) {
         const key = scene.name;
         createCommandWindow_old[key] = scene.prototype.createCommandWindow;
