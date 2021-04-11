@@ -1,7 +1,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Nolonar
+ * Copyright (c) 2021 Nolonar
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@
  * @default To Desktop
  * 
  * 
- * @help Version 1.2.0
+ * @help Version 1.2.1
  * 
  * This plugin does not provide plugin commands.
  * 
@@ -53,7 +53,7 @@
  */
 
 (() => {
-    const PLUGIN_NAME = "N_Minimap";
+    const PLUGIN_NAME = "N_StartFullscreen";
 
     const parameters = PluginManager.parameters(PLUGIN_NAME);
     parameters.textExit = parameters.textExit || "Exit";
