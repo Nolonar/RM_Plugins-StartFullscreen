@@ -44,7 +44,7 @@
  * @default To Desktop
  * 
  * 
- * @help Version 1.2.1
+ * @help Version 1.2.2
  * 
  * This plugin does not provide plugin commands.
  * 
@@ -95,7 +95,7 @@
         scene.prototype.createCommandWindow = function () {
             createCommandWindow_old[this.constructor.name].call(this);
 
-            this._commandWindow.setHandler(symbol, () => SceneManager.exit());
+            this._commandWindow.setHandler(symbol, exitGame);
             // Reset command window.
             this._windowLayer.removeChild(this._commandWindow);
             this.addWindow(this._commandWindow);
@@ -109,5 +109,9 @@
             rect.height += this.calcWindowHeight(3, true) - this.calcWindowHeight(2, true);
             return rect;
         };
+    }
+
+    function exitGame() {
+        nw.App.quit();
     }
 })();
