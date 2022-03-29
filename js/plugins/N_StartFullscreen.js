@@ -44,7 +44,7 @@
  * @default To Desktop
  * 
  * 
- * @help Version 1.2.2
+ * @help Version 1.2.3
  * 
  * This plugin does not provide plugin commands.
  * 
@@ -58,6 +58,20 @@
     const parameters = PluginManager.parameters(PLUGIN_NAME);
     parameters.textExit = parameters.textExit || "Exit";
     parameters.textToDesktop = parameters.textToDesktop || "To Desktop";
+
+    // Backport Array.remove() from MZ to MV
+    if (!Array.prototype.remove) {
+        Array.prototype.remove = function (element) {
+            for (; ;) {
+                const index = this.indexOf(element);
+                if (index >= 0) {
+                    this.splice(index, 1);
+                } else {
+                    return this;
+                }
+            }
+        };
+    };
 
     const Scene_Boot_start = Scene_Boot.prototype.start;
     Scene_Boot.prototype.start = function () {

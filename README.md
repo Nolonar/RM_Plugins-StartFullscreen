@@ -9,7 +9,7 @@ Launches game in fullscreen.
 
 ## Compatibility
 Tested and confirmed working:
-- RPG Maker MV
+- RPG Maker MV ([1.2.3][release_1_2_3] only; newer versions might work, but are untested)
 - RPG Maker MZ
 
 ## Terms of Use
@@ -17,3 +17,4 @@ According to [LICENSE](LICENSE).
 
   [hub]: https://github.com/Nolonar/RM_Plugins
   [release]: https://github.com/Nolonar/RM_Plugins-StartFullscreen/releases/latest/download/N_StartFullscreen.js
+  [release_1_2_3]: https://github.com/Nolonar/RM_Plugins-StartFullscreen/releases/tag/v1.2.3
