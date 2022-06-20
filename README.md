@@ -17,4 +17,4 @@ According to [LICENSE](LICENSE).
 
   [hub]: https://github.com/Nolonar/RM_Plugins
   [release]: https://github.com/Nolonar/RM_Plugins-StartFullscreen/releases/latest/download/N_StartFullscreen.js
-  [release_1_2_3]: https://github.com/Nolonar/RM_Plugins-StartFullscreen/releases/tag/v1.2.3
+  [release_1_2_3]: https://github.com/Nolonar/RM_Plugins-StartFullscreen/releases/download/v1.2.3/N_StartFullscreen.js
